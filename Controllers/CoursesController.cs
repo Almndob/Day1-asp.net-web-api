@@ -17,7 +17,12 @@ namespace Day1.Controllers
         }
 
         // GET: api/Courses
-        
+        /// <summary>
+        /// Retrieves all courses from the database.
+        /// </summary>
+        /// <returns>
+        /// Returns 200 OK with a list of courses.
+        /// </returns>
         [HttpGet]
         public IActionResult GetCourses()
         {
@@ -35,6 +40,15 @@ namespace Day1.Controllers
                 }).ToList();
             return Ok(courses);
         }
+        /// <summary>
+        /// Retrieves a specific course by its ID.
+        /// </summary>
+        /// <param name="id">The unique ID of the course to retrieve.</param>
+        /// <returns>
+        /// Returns 200 OK with the course details if found.
+        /// Returns 400 Bad Request if the course ID is invalid.
+        /// Returns 404 Not Found if the course does not exist.
+        /// </returns>
 
         // GET: api/Courses/1
         [HttpGet("{id:int}")]
@@ -69,7 +83,18 @@ namespace Day1.Controllers
             return Ok(dto);
         }
 
-        // POST: api/Courses
+
+        /// <summary>
+        /// Creates a new course in the database.
+        /// </summary>
+        /// <param name="courseDto">
+        /// The course creation data, including course name, credits,
+        /// description, department, instructor, semester, and maximum enrollment.
+        /// </param>
+        /// <returns>
+        /// Returns 201 Created with the newly created course and its location.
+        /// Returns 400 Bad Request if the input data is invalid.
+        /// </returns>
         [HttpPost]
 
         public IActionResult AddCourse(CourseCreateDto courseDto)
@@ -111,10 +136,19 @@ namespace Day1.Controllers
         }
 
 
-       
-      
 
-        // PUT: api/Courses/1
+
+
+        /// <summary>
+        /// Updates the details of an existing course.
+        /// </summary>
+        /// <param name="id">The unique ID of the course to update.</param>
+        /// <param name="courseDto">The updated course information.</param>
+        /// <returns>
+        /// Returns 200 OK if the course is updated successfully.
+        /// Returns 400 Bad Request if the input data is invalid.
+        /// Returns 404 Not Found if the course does not exist.
+        /// </returns>
         [HttpPut("{id:int}")]
         public IActionResult EditCourse(int id, CourseEditDto courseDto)
         {
@@ -147,7 +181,15 @@ namespace Day1.Controllers
         }
 
 
-        // DELETE: api/Courses/1
+        /// <summary>
+        /// Deletes a course from the database.
+        /// </summary>
+        /// <param name="id">The unique ID of the course to delete.</param>
+        /// <returns>
+        /// Returns 204 No Content if the course is deleted successfully.
+        /// Returns 400 Bad Request if the course ID is invalid.
+        /// Returns 404 Not Found if the course does not exist.
+        /// </returns>
         [HttpDelete("{id:int}")]
         public IActionResult Delete(int id)
         {

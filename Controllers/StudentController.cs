@@ -17,6 +17,16 @@ namespace Day1.Controllers
         }
 
 
+        /// <summary>
+        /// Get All Students Information
+        /// </summary>
+        /// <returns>
+        /// List of Students
+        /// </returns>
+        /// <remarks>
+        /// Request Example:
+        /// /api/student
+        /// </remarks>
         [HttpGet]
         public IActionResult GetStudents()
         {
@@ -36,7 +46,16 @@ namespace Day1.Controllers
                 ).ToList();
             return Ok(students);
         }
-      
+
+        
+        /// <summary>
+        /// Retrieves a specific Student by its ID.
+        /// </summary>
+        /// <param name="id">The unique ID of the Student to retrieve.</param>
+        /// <returns>
+        /// Returns 200 OK with the student details if found.
+        /// Returns 404 Not Found if the student does not exist.
+        /// </returns>
         [HttpGet("{id:int}")]
         public IActionResult GetStudentById(int id)
         {
@@ -60,6 +79,15 @@ namespace Day1.Controllers
             }
         }
 
+
+        /// <summary>
+        /// Get Student By Name
+        /// </summary>
+        /// <param name="firstName">FirstName</param>
+        /// <returns>a Student info</returns>
+        /// <remarks>
+        /// Requist Example: api/student/GetByName?name=ali
+        /// </remarks>
         [HttpGet("{name:alpha}")]
         public IActionResult GetByName(string firstName)
         {
@@ -84,8 +112,17 @@ namespace Day1.Controllers
             }
         }
 
-       
 
+        /// <summary>
+        /// Creates a new student and saves the student information to the database.
+        /// </summary>
+        /// <param name="dto">
+        /// The student creation data, including first name, last name, age,
+        /// date of birth, email, phone number, and address.
+        /// </param>
+        /// <returns>
+        /// Returns 200 OK with a success message and the ID of the created student.
+        /// </returns>
         [HttpPost]
         public IActionResult CreateStudent(StudentCreateDto dto)
         {
@@ -111,8 +148,20 @@ namespace Day1.Controllers
         }
 
 
-        
 
+        /// <summary>
+        /// Updates the information of an existing student.
+        /// </summary>
+        /// <param name="dto">
+        /// The updated student information, including first name, last name,
+        /// age, date of birth, email, phone number, and address.
+        /// </param>
+        /// <param name="id">The unique ID of the student to update.</param>
+        /// <returns>
+        /// Returns 200 OK with a success message and student ID if the update succeeds.
+        /// Returns 400 Bad Request if the student ID or request data is invalid.
+        /// Returns 404 Not Found if the student does not exist.
+        /// </returns>
 
         [HttpPut("{id:int}")]
         public IActionResult Edit(StudentEditDto dto,int id)
@@ -147,6 +196,16 @@ namespace Day1.Controllers
 
         }
 
+
+        /// <summary>
+        /// Deletes an existing student from the database.
+        /// </summary>
+        /// <param name="id">The unique ID of the student to delete.</param>
+        /// <returns>
+        /// Returns 204 No Content if the student is deleted successfully.
+        /// Returns 400 Bad Request if the student ID is invalid.
+        /// Returns 404 Not Found if the student does not exist.
+        /// </returns>
         [HttpDelete("{id:int}")]
         public IActionResult Delete(int id)
         {

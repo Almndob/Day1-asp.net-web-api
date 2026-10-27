@@ -1,0 +1,218 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Day1</name>
+    </assembly>
+    <members>
+        <member name="M:Day1.Controllers.CoursesController.GetCourses">
+            <summary>
+            Retrieves all courses from the database.
+            </summary>
+            <returns>
+            Returns 200 OK with a list of courses.
+            </returns>
+        </member>
+        <member name="M:Day1.Controllers.CoursesController.GetById(System.Int32)">
+            <summary>
+            Retrieves a specific course by its ID.
+            </summary>
+            <param name="id">The unique ID of the course to retrieve.</param>
+            <returns>
+            Returns 200 OK with the course details if found.
+            Returns 400 Bad Request if the course ID is invalid.
+            Returns 404 Not Found if the course does not exist.
+            </returns>
+        </member>
+        <member name="M:Day1.Controllers.CoursesController.AddCourse(Day1.DTOs.Course.CourseCreateDto)">
+            <summary>
+            Creates a new course in the database.
+            </summary>
+            <param name="courseDto">
+            The course creation data, including course name, credits,
+            description, department, instructor, semester, and maximum enrollment.
+            </param>
+            <returns>
+            Returns 201 Created with the newly created course and its location.
+            Returns 400 Bad Request if the input data is invalid.
+            </returns>
+        </member>
+        <member name="M:Day1.Controllers.CoursesController.EditCourse(System.Int32,Day1.DTOs.Course.CourseEditDto)">
+            <summary>
+            Updates the details of an existing course.
+            </summary>
+            <param name="id">The unique ID of the course to update.</param>
+            <param name="courseDto">The updated course information.</param>
+            <returns>
+            Returns 200 OK if the course is updated successfully.
+            Returns 400 Bad Request if the input data is invalid.
+            Returns 404 Not Found if the course does not exist.
+            </returns>
+        </member>
+        <member name="M:Day1.Controllers.CoursesController.Delete(System.Int32)">
+            <summary>
+            Deletes a course from the database.
+            </summary>
+            <param name="id">The unique ID of the course to delete.</param>
+            <returns>
+            Returns 204 No Content if the course is deleted successfully.
+            Returns 400 Bad Request if the course ID is invalid.
+            Returns 404 Not Found if the course does not exist.
+            </returns>
+        </member>
+        <member name="M:Day1.Controllers.EnrollmentsController.GetAll">
+            <summary>
+            Retrieves all enrollments from the database.
+            </summary>
+            <returns>
+            Returns 200 OK with a list of all enrollments.
+            </returns>
+            <remarks>
+            GET: api/Enrollments
+            </remarks>
+        </member>
+        <member name="M:Day1.Controllers.EnrollmentsController.GetById(System.Int32)">
+            <summary>
+            Retrieves a specific enrollment by its ID.
+            </summary>
+            <param name="id">The unique ID of the enrollment.</param>
+            <returns>
+            Returns 200 OK with the enrollment if found.
+            Returns 400 Bad Request if the ID is invalid.
+            Returns 404 Not Found if the enrollment does not exist.
+            </returns>
+            <remarks>
+            GET: api/Enrollments/1
+             </remarks>
+        </member>
+        <member name="M:Day1.Controllers.EnrollmentsController.Add(Day1.Models.Enrollment)">
+             <summary>
+             Creates a new enrollment in the database.
+             </summary>
+             <param name="enrollment">
+             The enrollment data, including StudentID, CourseID,
+             EnrollmentDate, Grade, and Status.
+             </param>
+             <returns>
+             Returns 201 Created with the newly created enrollment.
+             Returns 400 Bad Request if the input data is invalid.
+             </returns>
+             <remarks>
+             POST: api/Enrollments
+            
+             Example request:
+            
+                 {
+                     "studentID": 1,
+                     "courseID": 1,
+                     "enrollmentDate": "2026-10-28",
+                     "grade": "A",
+                     "status": "Active"
+                 }
+            
+             StudentID and CourseID must refer to existing records.
+             </remarks>
+        </member>
+        <member name="M:Day1.Controllers.EnrollmentsController.Edit(System.Int32,Day1.Models.Enrollment)">
+             <summary>
+             Updates an existing enrollment.
+             </summary>
+             <param name="id">The ID of the enrollment to update.</param>
+             <param name="enrollment">The updated enrollment information.</param>
+             <returns>
+             Returns 204 No Content if the update succeeds.
+             Returns 400 Bad Request if the ID or input data is invalid.
+             Returns 404 Not Found if the enrollment does not exist.
+             </returns>
+             <remarks>
+             PUT: api/Enrollments/1
+            
+             The ID in the URL must match EnrollmentID in the request body.
+             StudentID and CourseID must refer to existing records.
+             </remarks>
+        </member>
+        <member name="M:Day1.Controllers.EnrollmentsController.Delete(System.Int32)">
+            <summary>
+            Deletes an enrollment from the database.
+            </summary>
+            <param name="id">The unique ID of the enrollment to delete.</param>
+            <returns>
+            Returns 204 No Content if the enrollment is deleted successfully.
+            Returns 400 Bad Request if the ID is invalid.
+            Returns 404 Not Found if the enrollment does not exist.
+            </returns>
+            <remarks>
+            DELETE: api/Enrollments/1
+            </remarks>
+        </member>
+        <member name="M:Day1.Controllers.StudentController.GetStudents">
+            <summary>
+            Get All Students Information
+            </summary>
+            <returns>
+            List of Students
+            </returns>
+            <remarks>
+            Request Example:
+            /api/student
+            </remarks>
+        </member>
+        <member name="M:Day1.Controllers.StudentController.GetStudentById(System.Int32)">
+            <summary>
+            Retrieves a specific Student by its ID.
+            </summary>
+            <param name="id">The unique ID of the Student to retrieve.</param>
+            <returns>
+            Returns 200 OK with the student details if found.
+            Returns 404 Not Found if the student does not exist.
+            </returns>
+        </member>
+        <member name="M:Day1.Controllers.StudentController.GetByName(System.String)">
+            <summary>
+            Get Student By Name
+            </summary>
+            <param name="firstName">FirstName</param>
+            <returns>a Student info</returns>
+            <remarks>
+            Requist Example: api/student/GetByName?name=ali
+            </remarks>
+        </member>
+        <member name="M:Day1.Controllers.StudentController.CreateStudent(Day1.DTOs.Student.StudentCreateDto)">
+            <summary>
+            Creates a new student and saves the student information to the database.
+            </summary>
+            <param name="dto">
+            The student creation data, including first name, last name, age,
+            date of birth, email, phone number, and address.
+            </param>
+            <returns>
+            Returns 200 OK with a success message and the ID of the created student.
+            </returns>
+        </member>
+        <member name="M:Day1.Controllers.StudentController.Edit(Day1.DTOs.Student.StudentEditDto,System.Int32)">
+            <summary>
+            Updates the information of an existing student.
+            </summary>
+            <param name="dto">
+            The updated student information, including first name, last name,
+            age, date of birth, email, phone number, and address.
+            </param>
+            <param name="id">The unique ID of the student to update.</param>
+            <returns>
+            Returns 200 OK with a success message and student ID if the update succeeds.
+            Returns 400 Bad Request if the student ID or request data is invalid.
+            Returns 404 Not Found if the student does not exist.
+            </returns>
+        </member>
+        <member name="M:Day1.Controllers.StudentController.Delete(System.Int32)">
+            <summary>
+            Deletes an existing student from the database.
+            </summary>
+            <param name="id">The unique ID of the student to delete.</param>
+            <returns>
+            Returns 204 No Content if the student is deleted successfully.
+            Returns 400 Bad Request if the student ID is invalid.
+            Returns 404 Not Found if the student does not exist.
+            </returns>
+        </member>
+    </members>
+</doc>
