@@ -1,4 +1,5 @@
 ﻿
+using Day1.DTOs.Course;
 using Day1.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -16,11 +17,22 @@ namespace Day1.Controllers
         }
 
         // GET: api/Courses
+        
         [HttpGet]
-        public IActionResult GetAll()
+        public IActionResult GetCourses()
         {
-            var courses = db.Courses.ToList();
-
+            var courses = db.Courses.Select(
+                c => new CourseReadDto
+                {
+                    CourseID = c.CourseID,
+                    CourseName = c.CourseName,
+                    Credits = c.Credits,
+                    Description = c.Description,
+                    Department = c.Department,
+                    Instructor = c.Instructor,
+                    Semester = c.Semester,
+                    MaxEnrollment = c.MaxEnrollment
+                }).ToList();
             return Ok(courses);
         }
 
@@ -29,65 +41,111 @@ namespace Day1.Controllers
         public IActionResult GetById(int id)
         {
             if (id <= 0)
-                return BadRequest("Invalid Course ID.");
+                return BadRequest(new
+                {
+                    message = "Invalid Course ID."
+                });
 
             var course = db.Courses.Find(id);
 
             if (course == null)
-                return NotFound();
+                return NotFound(new
+                {
+                    message = "Course Not Found"
+                });
+            CourseReadDto dto = new CourseReadDto()
+            {
+                CourseID = course.CourseID,
+                CourseName = course.CourseName,
+                Credits = course.Credits,
+                Description = course.Description,
+                Department = course.Department,
+                Instructor = course.Instructor,
+                Semester = course.Semester,
+                MaxEnrollment = course.MaxEnrollment
+            };
 
-            return Ok(course);
+
+            return Ok(dto);
         }
 
         // POST: api/Courses
         [HttpPost]
-        public IActionResult Add(Course course)
+
+        public IActionResult AddCourse(CourseCreateDto courseDto)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
+
+            var course = new Course()
+            {
+                CourseName = courseDto.CourseName,
+                Credits = courseDto.Credits,
+                Description = courseDto.Description,
+                Department = courseDto.Department,
+                Instructor = courseDto.Instructor,
+                Semester = courseDto.Semester,
+                MaxEnrollment = courseDto.MaxEnrollment
+            };
 
             db.Courses.Add(course);
             db.SaveChanges();
 
+            var courseReadDto = new CourseReadDto()
+            {
+                CourseID = course.CourseID,
+                CourseName = course.CourseName,
+                Credits = course.Credits,
+                Description = course.Description,
+                Department = course.Department,
+                Instructor = course.Instructor,
+                Semester = course.Semester,
+                MaxEnrollment = course.MaxEnrollment
+            };
+
             return CreatedAtAction(
                 nameof(GetById),
                 new { id = course.CourseID },
-                course
+                courseReadDto
             );
         }
 
+
+       
+      
+
         // PUT: api/Courses/1
         [HttpPut("{id:int}")]
-        public IActionResult Edit(int id, Course course)
+        public IActionResult EditCourse(int id, CourseEditDto courseDto)
         {
-            if (id <= 0)
-                return BadRequest("Invalid Course ID.");
-
-            if (course.CourseID != id)
-                return BadRequest(
-                    "URL ID does not match CourseID."
-                );
-
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            var existingCourse = db.Courses.Find(id);
+            var course = db.Courses.Find(id);
 
-            if (existingCourse == null)
-                return NotFound();
+            if (course == null)
+                return NotFound(new
+                {
+                    message = "Course not found"
+                });
 
-            existingCourse.CourseName = course.CourseName;
-            existingCourse.Credits = course.Credits;
-            existingCourse.Description = course.Description;
-            existingCourse.Department = course.Department;
-            existingCourse.Instructor = course.Instructor;
-            existingCourse.Semester = course.Semester;
-            existingCourse.MaxEnrollment = course.MaxEnrollment;
+            course.CourseName = courseDto.CourseName;
+            course.Credits = courseDto.Credits;
+            course.Description = courseDto.Description;
+            course.Department = courseDto.Department;
+            course.Instructor = courseDto.Instructor;
+            course.Semester = courseDto.Semester;
+            course.MaxEnrollment = courseDto.MaxEnrollment;
 
             db.SaveChanges();
 
-            return NoContent();
+            return Ok(new
+            {
+                message = "Course updated successfully",
+                courseId = course.CourseID
+            });
         }
+
 
         // DELETE: api/Courses/1
         [HttpDelete("{id:int}")]
